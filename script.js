@@ -56,12 +56,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       for (let j = 0; j < 4; j++) {
         squares[i + j].innerHTML = newRow[j] ? newRow[j] : '';
-        squares[i + j].className = 'tile';
-        if (newRow[j]) {
-          squares[i + j].classList.add('tile-' + newRow[j]);
-        }
       }
     }
+    updateTileClasses();
   }
 
   // Swipe left
@@ -81,12 +78,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       for (let j = 0; j < 4; j++) {
         squares[i + j].innerHTML = newRow[j] ? newRow[j] : '';
-        squares[i + j].className = 'tile';
-        if (newRow[j]) {
-          squares[i + j].classList.add('tile-' + newRow[j]);
-        }
       }
     }
+    updateTileClasses();
   }
 
   // Swipe down
@@ -106,12 +100,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       for (let j = 0; j < 4; j++) {
         squares[i + (j * 4)].innerHTML = newColumn[j] ? newColumn[j] : '';
-        squares[i + (j * 4)].className = 'tile';
-        if (newColumn[j]) {
-          squares[i + (j * 4)].classList.add('tile-' + newColumn[j]);
-        }
       }
     }
+    updateTileClasses();
   }
 
   // Swipe up
@@ -131,12 +122,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       for (let j = 0; j < 4; j++) {
         squares[i + (j * 4)].innerHTML = newColumn[j] ? newColumn[j] : '';
-        squares[i + (j * 4)].className = 'tile';
-        if (newColumn[j]) {
-          squares[i + (j * 4)].classList.add('tile-' + newColumn[j]);
-        }
       }
     }
+    updateTileClasses();
   }
 
   // Combine row
@@ -147,14 +135,12 @@ document.addEventListener('DOMContentLoaded', () => {
           let combinedTotal = parseInt(squares[i].innerHTML) + parseInt(squares[i + 1].innerHTML);
           squares[i].innerHTML = combinedTotal;
           squares[i + 1].innerHTML = '';
-          squares[i].className = 'tile';
-          squares[i].classList.add('tile-' + combinedTotal);
-          squares[i + 1].className = 'tile';
           score += combinedTotal;
           scoreDisplay.innerHTML = 'Score: ' + score;
         }
       }
     }
+    updateTileClasses();
   }
 
   // Combine column
@@ -164,13 +150,22 @@ document.addEventListener('DOMContentLoaded', () => {
         let combinedTotal = parseInt(squares[i].innerHTML) + parseInt(squares[i + 4].innerHTML);
         squares[i].innerHTML = combinedTotal;
         squares[i + 4].innerHTML = '';
-        squares[i].className = 'tile';
-        squares[i].classList.add('tile-' + combinedTotal);
-        squares[i + 4].className = 'tile';
         score += combinedTotal;
         scoreDisplay.innerHTML = 'Score: ' + score;
       }
     }
+    updateTileClasses();
+  }
+
+  // Update tile classes to reflect the correct colors
+  function updateTileClasses() {
+    squares.forEach(square => {
+      square.className = 'tile';
+      let value = square.innerHTML;
+      if (value) {
+        square.classList.add('tile-' + value);
+      }
+    });
   }
 
   // Assign key codes
@@ -187,6 +182,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   document.addEventListener('keydown', control);
+
+  // Add event listeners for mobile buttons
+  document.getElementById('up-btn').addEventListener('click', keyUp);
+  document.getElementById('down-btn').addEventListener('click', keyDown);
+  document.getElementById('left-btn').addEventListener('click', keyLeft);
+  document.getElementById('right-btn').addEventListener('click', keyRight);
 
   function keyRight() {
     moveRight();
@@ -229,6 +230,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (squares.some(square => square.innerHTML == 2048)) {
       alert('You Win!');
       document.removeEventListener('keydown', control);
+      // Remove button event listeners
+      document.getElementById('up-btn').removeEventListener('click', keyUp);
+      document.getElementById('down-btn').removeEventListener('click', keyDown);
+      document.getElementById('left-btn').removeEventListener('click', keyLeft);
+      document.getElementById('right-btn').removeEventListener('click', keyRight);
     }
   }
 
@@ -251,8 +257,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (noMoves) {
         alert('Game Over!');
         document.removeEventListener('keydown', control);
+        // Remove button event listeners
+        document.getElementById('up-btn').removeEventListener('click', keyUp);
+        document.getElementById('down-btn').removeEventListener('click', keyDown);
+        document.getElementById('left-btn').removeEventListener('click', keyLeft);
+        document.getElementById('right-btn').removeEventListener('click', keyRight);
       }
     }
   }
 
 });
+
