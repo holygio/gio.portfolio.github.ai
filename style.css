@@ -128,10 +128,16 @@ footer {
   background-color: #bbada0;
   padding: 10px;
   color: #f9f6f2;
-  position: fixed;
-  bottom: 0;
+  /* Remove position fixed to prevent overlapping */
+  /* position: fixed; */
+  /* bottom: 0; */
   width: 100%;
   text-align: center;
+}
+
+/* Adjust margin-bottom to ensure footer doesn't overlap content */
+body {
+  margin-bottom: 50px; /* Adjust based on footer height */
 }
 
 footer a {
